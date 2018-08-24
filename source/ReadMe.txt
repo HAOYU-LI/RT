@@ -1,7 +1,7 @@
 Computer Graphics
 ----------------------------------------------------------------------
 Assignment 4 Template
-Version 3.1	Nov.2006
+Version 3.1	
 
 Note!
 This template is for C0271 course students only.
@@ -422,4 +422,4 @@ Pretty ones will be posted on the course homepage.
 
 Enjoy!
 
-Course tutor
+
