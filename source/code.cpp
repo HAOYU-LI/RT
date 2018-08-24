@@ -18,7 +18,7 @@ vector<CPrimitive *> vObjects;				// array of objects
 
 void RayTracing(V3 * colorMap)
 {	
-	//add your code here
+	
 	int i,j;
 	V3 cur_point,rayStart,rayDir,color(0.0,0.0,0.0);
 	for(i=0 ; i<winWidth ; i++)
@@ -39,13 +39,13 @@ void RayTracing(V3 * colorMap)
 
 void Trace(V3& rayStart, V3& rayDir, int depth, V3& color)
 {
-	//add your code here
+	
 	CPrimitive* objHit;
 	V3 intersection, normal;
 	rayDir.normalize();
 	if(Intersect(rayStart,rayDir,objHit,intersection,normal))
 	{
-		//normal.normalize();
+		
 		Shade(objHit, rayStart, rayDir,intersection,normal,depth,color);
 	}else{
 		color = V3(0,0,0);
@@ -56,7 +56,7 @@ void Trace(V3& rayStart, V3& rayDir, int depth, V3& color)
 // compute color at a given point
 void Shade(CPrimitive *obj, V3& rayStart, V3& rayDir, V3& intersection, V3& normal, int depth, V3& color)
 {
-	//add your code here
+	
 	int i;
 	CPrimitive* tmp_obj;
 	V3 cur_LightPos, Light_intersection, Light_normal;
@@ -73,11 +73,11 @@ void Shade(CPrimitive *obj, V3& rayStart, V3& rayDir, V3& intersection, V3& norm
 	obj->GetAmbient(intersection, Oa);
 	obj->GetDiffuse(intersection, Od);
 	obj->GetSpecular(intersection, Os);
-	///////////////get ambient, diffuse, specular color////////////////
+	
 
 	Ks = obj->m_Reflectance;
 	Kt = 1 - obj->m_Opacity;
-	//normal.normalize();
+	
 	for(i=0 ; i<vLightSource.size() ; i++)
 	{
 		cur_LightPos = vLightSource[i]->position;
@@ -100,7 +100,7 @@ void Shade(CPrimitive *obj, V3& rayStart, V3& rayDir, V3& intersection, V3& norm
 				Second_term += V3(Ipi[0]*Inside_Square[0],
 								  Ipi[1]*Inside_Square[1],
 								  Ipi[2]*Inside_Square[2]);
-				//////////////////////////////Second term: Si*Ipi[...]///////////////////////////////
+				
 			}
 		}
 	}
@@ -115,7 +115,7 @@ void Shade(CPrimitive *obj, V3& rayStart, V3& rayDir, V3& intersection, V3& norm
 			Third_term += (Ks*Ir);
 		}
 	}
-	//////////////////////////////Third term: Ks*Ir///////////////////////////////
+	
 	color = (Oa + Second_term + Third_term); 
 	color = V3(color[0] > 1.0?1.0 : color[0],
 			   color[1] > 1.0?1.0 : color[1],
@@ -126,11 +126,11 @@ void Shade(CPrimitive *obj, V3& rayStart, V3& rayDir, V3& intersection, V3& norm
 
 bool IntersectQuadratic(V3 rayStart,V3 rayDir, float * coeffMatrix, float& t, V3& intersection)
 {
-	//add your code here
+	
 	float S[] = {rayStart[0],rayStart[1],rayStart[2],1};
 	float D[] = {rayDir[0],rayDir[1],rayDir[2],0};
 	float a_[4],a,b_[4],b,c_[4],c,delta,t0,t1;
-	//////////////////////////////Calculate a,b,c///////////////////////////////
+	
 	//a = D^T*A*D | b = 2*(S^T*A*D) | c = (S^T*A*S)
 	VectorMultMatrix(D,coeffMatrix,a_);
 	a = VectorMultVector(a_,D);
@@ -140,7 +140,7 @@ bool IntersectQuadratic(V3 rayStart,V3 rayDir, float * coeffMatrix, float& t, V3
 
 	VectorMultMatrix(S,coeffMatrix,c_);
 	c = VectorMultVector(c_,S);
-	//////////////////////////////Calculate a,b,c///////////////////////////////
+	
 
 	//////////////////////////////Find t////////////////////////////////////////
 	delta = b*b - 4*a*c;
@@ -154,14 +154,14 @@ bool IntersectQuadratic(V3 rayStart,V3 rayDir, float * coeffMatrix, float& t, V3
 		else if(t0 > 0 && (t1 >= t0 || t1 <= 0) ) t = t0;
 		else if(t1 > 0 && (t0 > t1 || t0 <= 0) )  t = t1;
 	}
-	//////////////////////////////Find t////////////////////////////////////////
+	
 	intersection = V3(S[0]+D[0]*t , S[1]+D[1]*t , S[2]+D[2]*t);
 	return true;
 }
 
 bool  IntersectTriangle(V3 rayStart,V3 rayDir, V3 v0, V3 v1,V3 v2, float& t,V3& intersection)
 {	
-	//add your code here
+	
 	rayDir.normalize();
 	int i;
 	V3 vec1_ = v1 - v0, vec2_ = v2 - v0, N, cross01, cross20, cross12;
@@ -176,12 +176,12 @@ bool  IntersectTriangle(V3 rayStart,V3 rayDir, V3 v0, V3 v1,V3 v2, float& t,V3& 
 	//Calculate d//
 	d = N[0] * v0[0] + N[1] * v0[1] + N[2] * v0[2];
 
-	//////////////////////find plane equation////////////////////
+	
 
 	//////////////////////find t/////////////////////////////////
 	if(N.dot(V3(D[0],D[1],D[2])) != 0)
 		t = (d-N[0]*S[0]-N[1]*S[1]-N[2]*S[2])/(N[0]*D[0]+N[1]*D[1]+N[2]*D[2]);
-	//////////////////////find t/////////////////////////////////
+	
 
 	for(i=0; i<4; i++)	C[i] = S[i] + D[i]*t;
 	cross01 = V3(v0[0]-C[0], v0[1]-C[1], v0[2]-C[2]).cross(V3(v1[0]-C[0], v1[1]-C[1], v1[2]-C[2]));
