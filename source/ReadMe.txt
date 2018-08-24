@@ -1,4 +1,4 @@
-C0271 Computer Graphics
+Computer Graphics
 ----------------------------------------------------------------------
 Assignment 4 Template
 Version 3.1	Nov.2006
