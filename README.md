@@ -3,4 +3,4 @@
 <img src="./texture/rt.png"><br>
 
 Course project of COMP3271-Computer Graphics in the university of Hong Kong. <br>
-Don't use it for course assignment purpose. 
+
